@@ -21,7 +21,7 @@ change `Port 22` to `Port 2200`
 `sudo ufw enable`  
 Notice: it seems that the above cmds do not work for Amazon Lightsail server, I had to add the firewall rule using firewall control under network tab  
 - Disable remote login of root user and enfore key-based SSH authentication  
-`vi /etc/ssh/sshd_config`  
+`sudo vi /etc/ssh/sshd_config`  
 change `PermitRootLogin yes` to `PermitRootLogin no`  
 change `PasswordAuthentication no` to `PasswordAuthentication no`  
 `sudo service sshd restart`  
@@ -34,6 +34,12 @@ Give grader access
 `su grader`  
 `cd ~`  
 `ssh-keygen -t rsa`  
+`cd ~/.ssh`  
+`cat id_rsa.pub >> authorized_keys`  
+`chmod 600 authorized_keys`  
+`sudo vi /etc/ssh/sshd_config`  
+Add `AuthorizedKeysFile      %h/.ssh/authorized_keys`  
+`sudo service sshd restart`  
 
 Prepare to deploy project  
 - Configure the local timezone to UTC  
